@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class LongestCommonPrefix {
 
-    Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
     private String s1;
     private String s2;
 

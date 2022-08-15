@@ -1,9 +1,11 @@
 package hangman;
 
+import hangman.stringbuilder.HangmanGameStringBuilder;
+
 public class Main {
 
     public static void main(String[] args) {
-        HangmanGame hangmanGame = new HangmanGame();
+        HangmanGameStringBuilder hangmanGame = new HangmanGameStringBuilder();
         hangmanGame.guessLetter();
     }
 }
