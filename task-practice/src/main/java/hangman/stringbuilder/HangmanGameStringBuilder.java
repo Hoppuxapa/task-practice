@@ -32,9 +32,7 @@ public class HangmanGameStringBuilder extends Hangman {
 
     private StringBuilder encodeWord(StringBuilder gameWord) {
         StringBuilder s = new StringBuilder();
-        for (int i = 0; i < gameWord.length(); i++) {
-            s.append("*");
-        }
+        s.append("*".repeat(Math.max(0, gameWord.length())));
         return s;
     }
 
