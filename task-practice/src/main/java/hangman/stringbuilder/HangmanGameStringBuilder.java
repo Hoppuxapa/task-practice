@@ -22,7 +22,7 @@ public class HangmanGameStringBuilder extends Hangman {
 
             String guessLetter = getUserLetter();
             if (gameWord.toString().contains(guessLetter)) {
-                userWord = decodeGuessedLetter(gameWord, userWord, guessLetter);
+                decodeGuessedLetter(gameWord, userWord, guessLetter);
             } else {
                 ++countMisses;
             }
@@ -46,15 +46,14 @@ public class HangmanGameStringBuilder extends Hangman {
         return guessLetter;
     }
 
-    private StringBuilder decodeGuessedLetter(StringBuilder gameWord, StringBuilder userWord, String guessLetter) {
+    private void decodeGuessedLetter(StringBuilder gameWord, StringBuilder userWord, String guessLetter) {
         for (int i = 0; i < gameWord.length(); i++) {
             if (gameWord.charAt(i) == guessLetter.charAt(0)) {
-                userWord.delete(i,i);
-                userWord.insert(i,guessLetter);
+                userWord.delete(i, i);
+                userWord.insert(i, guessLetter);
             }
         }
         System.out.println("Great! You guessed the letter: " + guessLetter);
-        return userWord;
     }
 
 }
