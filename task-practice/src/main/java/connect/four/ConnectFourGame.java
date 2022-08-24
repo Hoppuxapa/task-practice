@@ -25,17 +25,20 @@ public class ConnectFourGame {
                     } else {
                         System.out.println("Winner is Yellow");
                     }
+
                     break;
                 }
                 isFirstPlayerTurn = !isFirstPlayerTurn;
+            } else {
+                System.out.println("It is draw!");
+                break;
             }
-            System.out.println("It is draw!");
         }
     }
 
     private boolean hasSpace(String[][] gameField) {
-        for (int i = 0; i < 5; i++) {
-            if (nonNull(gameField[0][i])) {
+        for (int i = 0; i < gameField.length - 1; ++i) {
+            if (isNull(gameField[0][i])) {
                 return true;
             }
         }
@@ -43,7 +46,7 @@ public class ConnectFourGame {
     }
 
     private void setTurn(String[][] gameField, Turn turn) {
-        for (int i = 5; i >= 0; i--) {
+        for (int i = gameField.length - 1; i >= 0; i--) {
             if (isNull(gameField[i][turn.row])) {
                 gameField[i][turn.row] = turn.colour;
                 break;
@@ -52,10 +55,10 @@ public class ConnectFourGame {
     }
 
     private boolean isPlayerWon(String[][] gameField) {
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < gameField.length; i++) {
             int countToWin = 0;
-            for (int j = 0; j < 5; j++) {
-                if (nonNull(gameField[i][j]) && nonNull(gameField[i][j + 1]) && gameField[i][j].equals(gameField[i][j + 1])) {
+            for (int j = 0, k = 1; j < gameField.length - 1; j++,k++) {
+                if (nonNull(gameField[i][j]) && nonNull(gameField[i][k]) && gameField[i][j].equals(gameField[i][k])) {
                     ++countToWin;
                 }
             }
@@ -67,34 +70,40 @@ public class ConnectFourGame {
     }
 
     private Turn getPlayerTurn(String[][] gameField) {
-        String userString = scanner.next();
         Turn turn = new Turn();
-        if (userString.length() != 2) {
-            System.out.println("Please enter correct number of symbols");
-            return getPlayerTurn(gameField);
-        }
 
-        try {
-            turn.setRow(Integer.parseInt(userString.substring(0, 1)));
-            turn.setColour(userString.substring(1));
-        } catch (Exception e) {
-            System.out.println("Please enter first number from 0 to 6, second number from 0 to 5 and third letter R or Y colour");
-            return getPlayerTurn(gameField);
-        }
+        while (true) {
+            try {
+                boolean isValid = true;
+                String userString = scanner.next();
+                if (userString.length() != 2) {
+                    System.out.println("Please enter correct number of symbols");
+                    isValid = false;
+                }
 
-        if (turn.row > 6 || turn.row < 0) {
-            System.out.println("Row must be from 0 to 5");
-            return getPlayerTurn(gameField);
-        }
+                turn.setRow(Integer.parseInt(userString.substring(0, 1)));
+                turn.setColour(userString.substring(1));
 
-        if ((turn.colour.equals("Y") && isFirstPlayerTurn) || (turn.colour.equals("R") && !isFirstPlayerTurn)) {
-            System.out.println("Please enter correct colour");
-            return getPlayerTurn(gameField);
-        }
+                if (turn.row > 6 || turn.row < 0) {
+                    System.out.println("Row must be from 0 to 5");
+                    isValid = false;
+                }
 
-        if (nonNull(gameField[0][turn.row])) {
-            System.out.println("This column is full pick up another one!");
-            return getPlayerTurn(gameField);
+                if ((turn.colour.equals("Y") && isFirstPlayerTurn) || (turn.colour.equals("R") && !isFirstPlayerTurn)) {
+                    System.out.println("Please enter correct colour");
+                    isValid = false;
+                }
+
+                if (nonNull(gameField[0][turn.row])) {
+                    System.out.println("This column is full pick up another one!");
+                    isValid = false;
+                }
+                if (isValid) {
+                    break;
+                }
+            } catch (Exception e) {
+                System.out.println("Please enter first number from 0 to 6, second number from 0 to 5 and third letter R or Y colour");
+            }
         }
 
         return turn;
